@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: "/",
         routes: {
-          "/": (context) => Todo(),
+          "/": (context) => TodoScreen(),
           '/add': (context) => Add(),
         });
   }

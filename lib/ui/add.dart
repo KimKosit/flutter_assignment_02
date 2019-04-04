@@ -9,6 +9,8 @@ class Add extends StatefulWidget {
 }
 
 class AddState extends State<Add> {
+  final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -19,12 +21,15 @@ class AddState extends State<Add> {
         body: Padding(
           padding: EdgeInsets.all(13),
           child: Form(
+            key: _formkey,
             child: Column(
               children: <Widget>[
                 TextFormField(
                   decoration: InputDecoration(labelText: "Subject"),
                   validator: (value) {
-                    if (value.isEmpty) return "Subject is required";
+                    if (value.isEmpty) {
+                      return "Please fill subject";
+                    }
                   },
                 ),
                 Row(
@@ -32,7 +37,9 @@ class AddState extends State<Add> {
                     Expanded(
                       child: RaisedButton(
                         child: Text("Save"),
-                        onPressed: () {},
+                        onPressed: () {
+                          _formkey.currentState.validate();
+                        },
                       ),
                     )
                   ],

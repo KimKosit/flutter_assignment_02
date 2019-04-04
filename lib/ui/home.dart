@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class Todo extends StatefulWidget {
+class TodoScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return TodoState();
+    return TodoScreenState();
   }
 }
 
-class TodoState extends State<Todo> {
+class TodoScreenState extends State<TodoScreen> {
   int _index = 0;
 
   @override
