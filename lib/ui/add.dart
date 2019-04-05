@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import '../model/todo.dart';
 
-class Add extends StatefulWidget {
+class AddSubject extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return AddState();
+    return AddSubjectState();
   }
 }
 
-class AddState extends State<Add> {
+class AddSubjectState extends State<AddSubject> {
   final _formkey = GlobalKey<FormState>();
+  TextEditingController inputName = TextEditingController();
+  TodoProvider db = TodoProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +28,7 @@ class AddState extends State<Add> {
             child: Column(
               children: <Widget>[
                 TextFormField(
+                  controller: inputName,
                   decoration: InputDecoration(labelText: "Subject"),
                   validator: (value) {
                     if (value.isEmpty) {
@@ -37,8 +41,13 @@ class AddState extends State<Add> {
                     Expanded(
                       child: RaisedButton(
                         child: Text("Save"),
-                        onPressed: () {
-                          _formkey.currentState.validate();
+                        onPressed: () async {
+                          if (_formkey.currentState.validate()) {
+                            await db.insert(
+                              Todo(name: inputName.text, done: false),
+                            );
+                            Navigator.pop(context);
+                          }
                         },
                       ),
                     )

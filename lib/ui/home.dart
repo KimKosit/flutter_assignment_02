@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../model/todo.dart';
 
 class TodoScreen extends StatefulWidget {
   @override
@@ -8,8 +9,16 @@ class TodoScreen extends StatefulWidget {
   }
 }
 
-class TodoScreenState extends State<TodoScreen> {
+class TodoScreenState extends State {
+  TodoProvider todo = TodoProvider();
   int _index = 0;
+
+  // List<Todo> notDone;
+
+  // void getNotDone() {
+  //   notDone = todo.getNotDone() as List<Todo>;
+  //   print(notDone);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +27,17 @@ class TodoScreenState extends State<TodoScreen> {
     final List btnList = <Widget>[
       IconButton(
         icon: Icon(Icons.add),
-        onPressed: () {
+        onPressed: () async {
           Navigator.pushNamed(context, '/add');
         },
       ),
       IconButton(
         icon: Icon(Icons.delete),
-        onPressed: () {},
+        onPressed: () async {
+          setState(() {
+            todo.deleteDone();
+          });
+        },
       )
     ];
 
@@ -33,11 +46,32 @@ class TodoScreenState extends State<TodoScreen> {
         title: Text("Todo"),
         actions: <Widget>[btnList[_index]],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(13),
-        child: Center(
-          child: Text("No data found.."),
-        ),
+      body: FutureBuilder<List<Todo>>(
+        future: _index == 0
+            ? TodoProvider.db.getNotDone()
+            : TodoProvider.db.getDone(),
+        builder: (BuildContext context, AsyncSnapshot<List<Todo>> snapshot) {
+          if (snapshot.data.length > 0) {
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                Todo item = snapshot.data[index];
+                return CheckboxListTile(
+                  title: Text(item.name),
+                  value: item.done,
+                  onChanged: (bool value) {
+                    TodoProvider.db.swapper(item);
+                    setState(() {});
+                  },
+                );
+              },
+            );
+          } else {
+            return Center(
+              child: Text('No data found..'),
+            );
+          }
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _index,
