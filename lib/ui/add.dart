@@ -4,7 +4,6 @@ import '../model/todo.dart';
 class AddSubject extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return AddSubjectState();
   }
 }
@@ -16,7 +15,6 @@ class AddSubjectState extends State<AddSubject> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: AppBar(
           title: Text("New Subject"),

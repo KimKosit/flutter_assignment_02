@@ -4,7 +4,6 @@ import '../model/todo.dart';
 class TodoScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return TodoScreenState();
   }
 }
@@ -13,17 +12,8 @@ class TodoScreenState extends State {
   TodoProvider todo = TodoProvider();
   int _index = 0;
 
-  // List<Todo> notDone;
-
-  // void getNotDone() {
-  //   notDone = todo.getNotDone() as List<Todo>;
-  //   print(notDone);
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
     final List btnList = <Widget>[
       IconButton(
         icon: Icon(Icons.add),
