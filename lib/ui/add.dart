@@ -42,7 +42,7 @@ class AddSubjectState extends State<AddSubject> {
                         onPressed: () async {
                           if (_formkey.currentState.validate()) {
                             await db.insert(
-                              Todo(name: inputName.text, done: false),
+                              Todo(title: inputName.text, done: false),
                             );
                             Navigator.pop(context);
                           }

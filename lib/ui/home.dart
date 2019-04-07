@@ -47,7 +47,7 @@ class TodoScreenState extends State {
               itemBuilder: (BuildContext context, int index) {
                 Todo item = snapshot.data[index];
                 return CheckboxListTile(
-                  title: Text(item.name),
+                  title: Text(item.title),
                   value: item.done,
                   onChanged: (bool value) {
                     TodoProvider.db.swapper(item);

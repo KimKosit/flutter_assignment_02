@@ -3,24 +3,24 @@ import 'package:sqflite/sqflite.dart';
 
 final String tableTodo = "todo";
 final String columnId = "_id";
-final String columnName = "name";
+final String columnTitle = "title";
 final String columnDone = "done";
 
 class Todo {
   int id;
-  String name;
+  String title;
   bool done;
 
-  Todo({this.id, this.name, this.done});
+  Todo({this.id, this.title, this.done});
 
   factory Todo.fromMap(Map<String, dynamic> json) => new Todo(
         id: json[columnId],
-        name: json[columnName],
+        title: json[columnTitle],
         done: json[columnDone] == 1,
       );
 
   Map<String, dynamic> toMap() => {
-        columnName: name,
+        columnTitle: title,
         columnDone: done == false ? 0 : 1,
       };
 }
@@ -43,7 +43,7 @@ class TodoProvider {
     return await openDatabase(path, version: 1,
         onCreate: (Database _database, int version) async {
       await _database.execute(
-          '''create table $tableTodo ($columnId integer primary key autoincrement, $columnName text not null,$columnDone integer not null)''');
+          '''create table $tableTodo ($columnId integer primary key autoincrement, $columnTitle text not null,$columnDone integer not null)''');
     });
   }
 
@@ -73,7 +73,7 @@ class TodoProvider {
 
   Future<void> swapper(Todo todo) async {
     final db = await database;
-    Todo done = Todo(id: todo.id, name: todo.name, done: !todo.done);
+    Todo done = Todo(id: todo.id, title: todo.title, done: !todo.done);
     var result = await db.update(tableTodo, done.toMap(),
         where: "$columnId = ?", whereArgs: [todo.id]);
     return result;
